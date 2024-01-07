@@ -26,9 +26,9 @@ This script was written & deployed in panic due to my saved-for-later YouTube vi
     - Done！double-click to run the generated `yt-dlp-download.bat`
 
 .
-1. [下载一个yt-dlp.exe工具](https://github.com/yt-dlp/yt-dlp/releases)
+1. [下载一个 yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases)
     - 为实现最优结果，建议创建一个文件夹用于放置yt-dlp.exe
-2. [下载yt-dlp-ops-en.ps1](yt-dlp-ops-zh.ps1) 并建议将本脚本放入yt-dlp.exe同文件夹下
+2. [下载 yt-dlp-ops-zh.ps1](yt-dlp-ops-zh.ps1) 并建议将本脚本放入yt-dlp.exe同文件夹下
 3. 运行yt-dlp-ops.ps1，可以在PowerShell ISE中打开并运行，也可以右键→用PowerShell运行
     - 将所有要下载的视频链接粘贴进去
       - 可以用批量拷贝链接的浏览器插件，如[Snap Links Plus](https://addons.mozilla.org/zh-CN/firefox/addon/snaplinksplus/)
