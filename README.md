@@ -1,6 +1,6 @@
 ## ❀ A simple, user-friendly Powershell script to make use of yt-dlp video downloading on Windows
 ## ❀ 简单方便的yt-dlp视频下载器操作界面脚本
-## ❀ 源发布于/Previously published on：https://nazorip.site/archives/1313/
+#### ❀ 源发布于/Previously published on：https://nazorip.site/archives/1313/
 
 This script was written & deployed in panic due to my saved-for-later YouTube videos were removed for "not meeting community guidelines"
 因油管河蟹，及不慎手抽而痛失收藏视频，遂慌而疾书所得（文言文太差，尽力了）
