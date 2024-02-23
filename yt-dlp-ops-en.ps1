@@ -218,6 +218,8 @@ $null = [ProcessDPI]::SetProcessDPIAware()
 
 clear
 
+Write-Host "Short link can result in download failure.`nRecommending to open all short links, and then bulk copy the full link with tools like [github.com/EuanRiggans/BulkURLOpener].`n"
+
 $link=""
 Do {($link = Read-MultiLineInputDialog -Message "★ Paste all your downloading links，separated by line-breaks" -WindowTitle "★ yt-dlp-ops-en Downloading input box" -DefaultText "")
     if (($link -notmatch "http") -and ($link -notmatch "=") -and ($link -notmatch "ftp") -and ($link -notmatch "localhost")) {badinputwarning} else {"`r`n√ Line 223: Determining input as normal video link"}

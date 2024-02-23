@@ -218,6 +218,8 @@ $null = [ProcessDPI]::SetProcessDPIAware()
 
 clear
 
+Write-Host "短链接可能会导致下载失败，建议用如 github.com/EuanRiggans/BulkURLOpener 的批量链接管理器打开并拷贝解析出的完整链接`n"
+
 $link=""
 Do {($link = Read-MultiLineInputDialog -Message "★ 粘贴所有要下载的视频链接，多个链接通过换行区分" -WindowTitle "★ yt-dlp-ops 下载链接输入窗口" -DefaultText "")
     if (($link -notmatch "http") -and ($link -notmatch "=") -and ($link -notmatch "ftp") -and ($link -notmatch "localhost")) {badinputwarning} else {"`r`n√ 行223: 判断为正常下载链接"}
