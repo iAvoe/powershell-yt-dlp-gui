@@ -238,6 +238,18 @@ Do {$DownloadPath = whichlocation -Message "选择[下载路径]";         $Down
     ""
 } While ((Test-Path $ytdlpAppPath) + (Test-Path $DownloadPath) + (Test-Path $CmdPrintPath) -ne 3) #$true+$true+$true=3
 
+$audioOnly = $false
+$audioFormat = ""
+Switch (Read-Host "`n输入y以[仅下载音频]，或按Enter下载完整视频") {
+    y {
+        $audioOnly = $true
+        Write-Host "√ 将使用音频模式下载"
+    }
+    Default {
+        Write-Host "√ 将下载完整视频"
+    }
+}
+
 $CookieIOPath = $DownloadPath+"ytdlpCookies.txt"                                   #导出和后来导入Cookie用的txt
 
 $brwsrSelect=$cookieExp=""
@@ -272,8 +284,17 @@ if ($brwsrSelect -ne "") {
 $ctrl_gen += "
 @ECHO 下载视频与随机间隔"
 $link.Split("`r`n").Trim() | where {$_ -ne ""} | ForEach-Object {
-    $ctrl_gen+="timeout /nobreak /t "+(Get-Random -InputObject 1,2,3,4,5,6,7).ToString() #每个下载随机间隔1~7秒以降低对视频平台的压力，从而实现对普通观看过程的模拟，并降低被拦截的概率
-    $ctrl_gen+="$ytdlpAppPath --newline --ignore-errors -o `"$DownloadPath%%(title)s.%%(ext)s`" --ignore-config --hls-prefer-native --no-playlist $_ $cookieImp " #批处理中需要%%而不是常规%(title)
+    $ctrl_gen+="timeout /nobreak /t "+(Get-Random -InputObject 1,2,3,4,5,6,7).ToString()
+
+    # 根据用户选择构建命令
+    if ($audioOnly) {
+        # 仅下载音频
+        $ctrl_gen+="$ytdlpAppPath --newline --ignore-errors -x --audio-format best --no-keep-video -o `"$DownloadPath%%(title)s.%%(ext)s`" --ignore-config --hls-prefer-native --no-playlist $_ $cookieImp "
+    }
+    else {
+        # 下载完整视频
+        $ctrl_gen+="$ytdlpAppPath --newline --ignore-errors -o `"$DownloadPath%%(title)s.%%(ext)s`" --ignore-config --hls-prefer-native --no-playlist $_ $cookieImp "
+    }
 }
 
 $ctrl_gen += "

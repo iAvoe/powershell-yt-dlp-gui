@@ -239,6 +239,16 @@ Do {$DownloadPath = whichlocation -Message "Select[Download Path]";         $Dow
     ""
 } While ((Test-Path $ytdlpAppPath) + (Test-Path $DownloadPath) + (Test-Path $CmdPrintPath) -ne 3) #$true+$true+$true=3
 
+$audioOnly = $false
+$audioFormat = ""
+Switch (Read-Host "`nInput `"y`" to [Only download audio], otherwise press Enter to download entire video") {
+    y {
+        $audioOnly = $true
+        Write-Host "√ Only download audio"
+    }
+    Default { Write-Host "√ Download video with audio" }
+}
+
 $CookieIOPath = $DownloadPath+"ytdlpCookies.txt"                                          #Export & later importing path for cookies, since yt-dlp with cookie tends to success
 
 $brwsrSelect=$cookieExp=""
@@ -276,8 +286,17 @@ if ($brwsrSelect -ne "") {
 $ctrl_gen += "
 @ECHO Downloading videos with random gaps inbetween each task"
 $link.Split("`r`n").Trim() | where {$_ -ne ""} | ForEach-Object {
-    $ctrl_gen+="timeout /nobreak /t "+(Get-Random -InputObject 1,2,3,4,5,6,7).ToString() #Reducing some load on video platform side by a sleep procedure inbetween each downloading task for 1~7 seconds, to somewhat mimic a normal watching behavior
-    $ctrl_gen+="$ytdlpAppPath --newline --ignore-errors -o `"$DownloadPath%%(title)s.%%(ext)s`" --ignore-config --hls-prefer-native --no-playlist $_ $cookieImp " #The %% is required for batch script instead of %(title) specified in yt-dlp docs
+    $ctrl_gen+="timeout /nobreak /t "+(Get-Random -InputObject 1,2,3,4,5,6,7).ToString()
+
+    # Build commandline based on user's selection (audio only or not)
+    if ($audioOnly) {
+        # Audio only
+        $ctrl_gen+="$ytdlpAppPath --newline --ignore-errors -x --audio-format best --no-keep-video -o `"$DownloadPath%%(title)s.%%(ext)s`" --ignore-config --hls-prefer-native --no-playlist $_ $cookieImp "
+    }
+    else {
+        # Video with audio
+        $ctrl_gen+="$ytdlpAppPath --newline --ignore-errors -o `"$DownloadPath%%(title)s.%%(ext)s`" --ignore-config --hls-prefer-native --no-playlist $_ $cookieImp "
+    }
 }
 
 $ctrl_gen += "
